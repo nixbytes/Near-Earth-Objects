@@ -116,13 +116,15 @@ class CloseApproach:
         # onto attributes named `_designation`, `time`, `distance`, and `velocity`.
         # You should coerce these values to their appropriate data type and handle any edge cases.
         # The `cd_to_datetime` function will be useful.
-        self._designation = ''
-        self.time = None  # TODO: Use the cd_to_datetime function for this attribute.
-        self.distance = 0.0
-        self.velocity = 0.0
+        # using the get method again for pulling the data from dict
+        self._designation = info.get('designation')
+        self.time = cd_to_datetime(self.datetime)
+        #self.time = None  # TODO: Use the cd_to_datetime function for this attribute.
+        self.distance = info.get('distance')
+        self.velocity = info.get('velocity')
 
         # Create an attribute for the referenced NEO, originally None.
-        self.neo = None
+        self.neo = info.get('neo')
 
     @property
     def time_str(self):
@@ -140,14 +142,20 @@ class CloseApproach:
         # TODO: Use this object's `.time` attribute and the `datetime_to_str` function to
         # build a formatted representation of the approach time.
         # TODO: Use self.designation and self.name to build a fullname for this object.
-        return ''
+        return datetime_to_str(self.time)
 
     def __str__(self):
         """Return `str(self)`."""
         # TODO: Use this object's attributes to return a human-readable string representation.
         # The project instructions include one possibility. Peek at the __repr__
         # method for examples of advanced string formatting.
-        return f"A CloseApproach ..."
+        #return f"A CloseApproach ..."
+        if not self.neo.name:
+            fullname = self.designation
+        else:
+            fullname = f'{self.designation}({self.neo.name})'
+
+        return f"At {self.time_str}, '{fullname}' approaches Earth at a distance of {self.distance:.2f} au and a velocity of {self.velocity:.2f} km/s."
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""
