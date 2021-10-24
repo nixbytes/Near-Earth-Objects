@@ -44,6 +44,9 @@ class NearEarthObject:
         # You should coerce these values to their appropriate data type and
         # handle any edge cases, such as a empty name being represented by `None`
         # and a missing diameter being represented by `float('nan')`.
+        for key,value in info.items():
+            pass
+
         self.designation = ''
         self.name = None
         self.diameter = float('nan')
