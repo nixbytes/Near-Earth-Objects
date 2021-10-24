@@ -44,16 +44,25 @@ class NearEarthObject:
         # You should coerce these values to their appropriate data type and
         # handle any edge cases, such as a empty name being represented by `None`
         # and a missing diameter being represented by `float('nan')`.
-        for key,value in info.items():
-            pass
 
-        self.designation = ''
-        self.name = None
-        self.diameter = float('nan')
-        self.hazardous = False
+    # additional notes: using the get method but check if true first otherwise default assignment    
+        if(info):
+            self.designation = info.get('designation')
+            self.name = info.get('name')
+            self.diameter = info.get('diameter')
+            self.hazardous = info.get('hazardous')
+            # Create an empty initial collection of linked approaches.
+            self.approaches = []
+        
+        else:
+            self.designation = ''
+            self.name = None
+            self.diameter = float('nan')
+            self.hazardous = False
 
-        # Create an empty initial collection of linked approaches.
-        self.approaches = []
+            # Create an empty initial collection of linked approaches.
+            self.approaches = []
+
 
     @property
     def fullname(self):
