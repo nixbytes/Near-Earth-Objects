@@ -42,9 +42,14 @@ class NEODatabase:
         self._neos = neos
         self._approaches = approaches
 
-        # TODO: What additional auxiliary data structures will be useful?
-
+        # TODO: What additional auxiliary data structures will be useful?   
+        # By creating additional Methods using return self to  refers back to the "self" object
         # TODO: Link together the NEOs and their close approaches.
+    def get_neo(self):
+        return self._neos
+    
+    def get_approaches(self):
+        return self._approaches
 
     def get_neo_by_designation(self, designation):
         """Find and return an NEO by its primary designation.
@@ -60,6 +65,12 @@ class NEODatabase:
         :return: The `NearEarthObject` with the desired primary designation, or `None`.
         """
         # TODO: Fetch an NEO by its primary designation.
+        
+        neo_obj = NEODatabase.get_approaches(self)
+
+        for neo in neo_obj:
+            if neo.designation == designation:
+                return neo
         return None
 
     def get_neo_by_name(self, name):
@@ -77,6 +88,12 @@ class NEODatabase:
         :return: The `NearEarthObject` with the desired name, or `None`.
         """
         # TODO: Fetch an NEO by its name.
+        
+        neo_obj = NEODatabase.get_neo(self)
+        
+        for neo in neo_obj:
+            if neo.name == name:
+                return neo.lower()
         return None
 
     def query(self, filters=()):
@@ -94,5 +111,12 @@ class NEODatabase:
         :return: A stream of matching `CloseApproach` objects.
         """
         # TODO: Generate `CloseApproach` objects that match all of the filters.
-        for approach in self._approaches:
-            yield approach
+        # for approach in self._approaches:
+        #     yield approach
+        approach = []
+        neo_obj = NEODatabase.get_approaches(self)
+        for neo in neo_obj:
+            count = sum(1 for filter in filters if filter(neo))
+            if count == len(filters):
+                approach.append(neo)
+        return approach
