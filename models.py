@@ -44,24 +44,21 @@ class NearEarthObject:
         # You should coerce these values to their appropriate data type and
         # handle any edge cases, such as a empty name being represented by `None`
         # and a missing diameter being represented by `float('nan')`.
-
-    # additional notes: using the get method but check if true first otherwise default assignment    
-        if(info):
+        # additional notes: using the get method but check if true first otherwise default assignment
+        if (info):
             self.designation = info.get('designation')
             self.name = info.get('name')
             self.diameter = info.get('diameter')
             self.hazardous = info.get('hazardous')
-            # Create an empty initial collection of linked approaches.
-            self.approaches = []
-        
         else:
             self.designation = ''
             self.name = None
             self.diameter = float('nan')
             self.hazardous = False
 
-            # Create an empty initial collection of linked approaches.
-            self.approaches = []
+
+        # Create an empty initial collection of linked approaches.
+        self.approaches = []
 
 
     @property
@@ -78,13 +75,9 @@ class NearEarthObject:
         # TODO: Use this object's attributes to return a human-readable string representation.
         # The project instructions include one possibility. Peek at the __repr__
         # method for examples of advanced string formatting.
-        #       
-        if self.hazardous:
-            self.is_hazardous = "is"
-        else:
-            self.is_hazardous = "is not"
-
-        return f"NEO {self.fullname} has a diameter of {self.diameter:.3f} km {self.is_hazardous} potentially hazardous. "
+        #
+        self.is_hazardous = "is" if self.hazardous else "is not"
+        return f"NEO {self.fullname} has a diameter of {float(self.diameter)} km {self.is_hazardous} potentially hazardous. "
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""
@@ -117,8 +110,8 @@ class CloseApproach:
         # You should coerce these values to their appropriate data type and handle any edge cases.
         # The `cd_to_datetime` function will be useful.
         # using the get method again for pulling the data from dict
-        self._designation = info.get('designation')
-        self.time = cd_to_datetime(self.datetime)
+        self._designation = info.get('_designation')
+        self.time = cd_to_datetime(info.get('time'))
         #self.time = None  # TODO: Use the cd_to_datetime function for this attribute.
         self.distance = info.get('distance')
         self.velocity = info.get('velocity')

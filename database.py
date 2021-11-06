@@ -11,7 +11,7 @@ data on NEOs and close approaches extracted by `extract.load_neos` and
 
 You'll edit this file in Tasks 2 and 3.
 """
-
+import extract
 
 class NEODatabase:
     """A database of near-Earth objects and their close approaches.
@@ -66,7 +66,7 @@ class NEODatabase:
         """
         # TODO: Fetch an NEO by its primary designation.
         
-        neo_obj = NEODatabase.get_approaches(self)
+        neo_obj = NEODatabase.get_neo(self)
 
         for neo in neo_obj:
             if neo.designation == designation:
@@ -93,7 +93,7 @@ class NEODatabase:
         
         for neo in neo_obj:
             if neo.name == name:
-                return neo.lower()
+                return neo
         return None
 
     def query(self, filters=()):
