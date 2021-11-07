@@ -136,3 +136,6 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+__pycache__/database.cpython-39.pyc
+__pycache__/filters.cpython-39.pyc
+__pycache__/models.cpython-39.pyc
