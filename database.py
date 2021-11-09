@@ -93,7 +93,7 @@ class NEODatabase:
         
         for neo in neo_obj:
             if neo.name == name:
-                return neo.lower()
+                return neo
         return None
 
     def query(self, filters=()):
