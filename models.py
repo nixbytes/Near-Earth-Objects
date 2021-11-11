@@ -47,7 +47,7 @@ class NearEarthObject:
         # additional notes: using the get method but check if true first otherwise default assignment
         
         self.designation = info.get('designation')
-        self.name = info.get('name') or None
+        self.name = info.get('name', None)
         self.diameter = float(info.get('diameter','nan'))
         self.hazardous = info.get('hazardous')
         # Create an empty initial collection of linked approaches.
@@ -57,11 +57,8 @@ class NearEarthObject:
     @property
     def fullname(self):
         """Return a representation of the full name of this NEO."""
-        # TODO: Use self.designation and self.name to build a fullname for this object.
-        if self.name is not None:
-            return f"'{self.designation} ({self.name})'"
-        else:
-            return f'{self.designation}'
+        return f"{self.designation} ({self.name})" \
+            if self.name is not None else f"{self.designation}"
 
     def __str__(self):
         """Return `str(self)`."""
@@ -106,11 +103,12 @@ class CloseApproach:
         self._designation = info.get('_designation')
         self.time = cd_to_datetime(info.get('time'))
         #self.time = None  # TODO: Use the cd_to_datetime function for this attribute.
-        self.distance = info.get('distance')
-        self.velocity = info.get('velocity')
+        self.distance = float(info.get('distance'))
+        self.velocity = float(info.get('velocity'))
 
         # Create an attribute for the referenced NEO, originally None.
-        self.neo = info.get('neo')
+        # self.neo = info.get('neo')
+        self.neo = None
 
     @property
     def time_str(self):
@@ -136,12 +134,13 @@ class CloseApproach:
         # The project instructions include one possibility. Peek at the __repr__
         # method for examples of advanced string formatting.
         #return f"A CloseApproach ..."
-        if not self.neo.name:
-            fullname = self.designation
+        if hasattr(self.neo, '_full_name'):
+            name = self.neo._full_name
         else:
-            fullname = f'{self.designation}({self.neo.name})'
+            name = self._designation
 
-        return f"At {self.time_str}, '{fullname}' approaches Earth at a distance of {self.distance:.2f} au and a velocity of {self.velocity:.2f} km/s."
+        return f"At {self.time_str}, '{name}' approaches Earth at a distance of {self.distance:.2f} au and a velocity of {self.velocity:.2f} km/s."
+        # return f"At {self.time_str}, {self.name} approaches Earth at a distance of {self.distance:.2f} au and a velocity of {self.velocity:.2f} km/s."
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""
