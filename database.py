@@ -44,12 +44,23 @@ class NEODatabase:
 
         # TODO: What additional auxiliary data structures will be useful?   
         # By creating additional Methods using return self to  refers back to the "self" object
+        
+        self._designation_neo_map = {}
+        self._neo_name_map = {}
+
         # TODO: Link together the NEOs and their close approaches.
-    def get_neo(self):
-        return self._neos
-    
-    def get_approaches(self):
-        return self._approaches
+
+        for neo in self._neos:
+            self._designation_neo_map[neo.designation] = neo
+            if neo.name:
+                self._neo_name_map[neo.name] = neo
+
+        for approach in self._approaches:
+            if approach._designation in self._designation_neo_map:
+                this_neo = self._designation_neo_map[approach._designation]
+                approach.neo = this_neo
+                this_neo.approaches.append(approach)
+
 
     def get_neo_by_designation(self, designation):
         """Find and return an NEO by its primary designation.
@@ -66,12 +77,7 @@ class NEODatabase:
         """
         # TODO: Fetch an NEO by its primary designation.
         
-        neo_obj = NEODatabase.get_approaches(self)
-
-        for neo in neo_obj:
-            if neo.designation == designation:
-                return neo
-        return None
+        return self._designation_neo_map.get(designation, None)
 
     def get_neo_by_name(self, name):
         """Find and return an NEO by its name.
@@ -89,12 +95,7 @@ class NEODatabase:
         """
         # TODO: Fetch an NEO by its name.
         
-        neo_obj = NEODatabase.get_neo(self)
-        
-        for neo in neo_obj:
-            if neo.name == name:
-                return neo
-        return None
+        return self._neo_name_map.get(name, None)
 
     def query(self, filters=()):
         """Query close approaches to generate those that match a collection of filters.
@@ -113,10 +114,8 @@ class NEODatabase:
         # TODO: Generate `CloseApproach` objects that match all of the filters.
         # for approach in self._approaches:
         #     yield approach
-        approach = []
-        neo_obj = NEODatabase.get_approaches(self)
-        for neo in neo_obj:
-            count = sum(1 for filter in filters if filter(neo))
-            if count == len(filters):
-                approach.append(neo)
-        return approach
+
+        for approach in self._approaches:
+            afterFilter = [filter(approach) for filter in filters]
+            if all(afterFilter):
+                yield approach
