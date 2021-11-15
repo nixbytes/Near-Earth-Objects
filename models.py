@@ -47,9 +47,9 @@ class NearEarthObject:
         # additional notes: using the get method but check if true first otherwise default assignment
 
         self.designation = info.get('designation')
-        self.name = info.get('name', None)
+        self.name = str(info.get('name', None))
         self.diameter = float(info.get('diameter','nan'))
-        self.hazardous = info.get('hazardous') == 'Y' 
+        self.hazardous = info.get('hazardous', 'N') == 'Y'
 
         # Create an empty initial collection of linked approaches.
         self.approaches = []

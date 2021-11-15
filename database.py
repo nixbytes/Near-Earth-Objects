@@ -56,10 +56,10 @@ class NEODatabase:
                 self._neo_name_map[neo.name] = neo
 
         for approach in self._approaches:
-            if approach._designation in self._designation_neo_map:
-                this_neo = self._designation_neo_map[approach._designation]
-                approach.neo = this_neo
-                this_neo.approaches.append(approach)
+            approach.neo = self._designation_neo_map.get(approach._designation)
+            if approach.neo:
+                self._designation_neo_map[approach._designation].approaches.append(
+                    approach)
 
 
     def get_neo_by_designation(self, designation):
@@ -95,7 +95,7 @@ class NEODatabase:
         """
         # TODO: Fetch an NEO by its name.
         
-        return self._neo_name_map.get(name, None)
+        return self._neo_name_map.get(name.lower(), None)
 
     def query(self, filters=()):
         """Query close approaches to generate those that match a collection of filters.
@@ -111,11 +111,11 @@ class NEODatabase:
         :param filters: A collection of filters capturing user-specified criteria.
         :return: A stream of matching `CloseApproach` objects.
         """
-        # TODO: Generate `CloseApproach` objects that match all of the filters.
-        # for approach in self._approaches:
-        #     yield approach
-
         for approach in self._approaches:
-            afterFilter = [filter(approach) for filter in filters]
-            if all(afterFilter):
+            if filters:
+                flags = list(map((lambda x: x(approach)), filters))
+
+                if all(flags):
+                    yield approach
+            else:
                 yield approach
