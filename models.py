@@ -48,7 +48,7 @@ class NearEarthObject:
 
         self.designation = info.get('designation')
         self.name = str(info.get('name', None))
-        self.diameter = float(info.get('diameter','nan'))
+        self.diameter = float(info.get('diameter', 'nan'))
         self.hazardous = info.get('hazardous', 'N') == 'Y'
 
         # Create an empty initial collection of linked approaches.
@@ -72,8 +72,8 @@ class NearEarthObject:
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""
-        return f"NearEarthObject(designation={self.designation!r}, name={self.name!r}, " \
-               f"diameter={self.diameter:.3f}, hazardous={self.hazardous!r})"
+        return (f"NearEarthObject(designation={self.designation!r}, name={self.name!r}, "
+               f"diameter={self.diameter:.3f}, hazardous={self.hazardous!r})")
 
 
 class CloseApproach:
@@ -101,7 +101,7 @@ class CloseApproach:
         # You should coerce these values to their appropriate data type and handle any edge cases.
         # The `cd_to_datetime` function will be useful.
         # using the get method again for pulling the data from dict
-        self._designation = info.get('_designation')
+        self._designation = info.get('designation')
         self.time = cd_to_datetime(info.get('time'))
         #self.time = None  # TODO: Use the cd_to_datetime function for this attribute.
         self.distance = float(info.get('distance'))
