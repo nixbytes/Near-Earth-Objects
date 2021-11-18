@@ -224,14 +224,12 @@ def query(database, args):
         # Write the results to stdout, limiting to 10 entries if not specified.
         for result in limit(results, args.limit or 10):
             print(result)
+    elif args.outfile.suffix == '.csv':
+        write_to_csv(limit(results, args.limit), args.outfile)
+    elif args.outfile.suffix == '.json':
+        write_to_json(limit(results, args.limit), args.outfile)
     else:
-        # Write the results to a file.
-        if args.outfile.suffix == '.csv':
-            write_to_csv(limit(results, args.limit), args.outfile)
-        elif args.outfile.suffix == '.json':
-            write_to_json(limit(results, args.limit), args.outfile)
-        else:
-            print("Please use an output file that ends with `.csv` or `.json`.", file=sys.stderr)
+        print("Please use an output file that ends with `.csv` or `.json`.", file=sys.stderr)
 
 
 class NEOShell(cmd.Cmd):
