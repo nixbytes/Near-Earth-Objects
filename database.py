@@ -95,7 +95,7 @@ class NEODatabase:
         """
         # TODO: Fetch an NEO by its name.
         
-        return self._neo_name_map.get(name.lower(), None)
+        return self._neo_name_map.get(name, None)
 
     def query(self, filters=()):
         """Query close approaches to generate those that match a collection of filters.

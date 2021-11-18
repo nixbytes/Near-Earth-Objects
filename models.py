@@ -47,19 +47,16 @@ class NearEarthObject:
         # additional notes: using the get method but check if true first otherwise default assignment
 
         self.designation = info.get('designation')
-        self.name = str(info.get('name', None))
+        self.name = info.get('name') or None
         self.diameter = float(info.get('diameter', 'nan'))
         self.hazardous = info.get('hazardous', 'N') == 'Y'
-
-        # Create an empty initial collection of linked approaches.
         self.approaches = []
 
 
     @property
     def fullname(self):
         """Return a representation of the full name of this NEO."""
-        return f"{self.designation} ({self.name})" \
-            if self.name is not None else f"{self.designation}"
+        return (f"{self.designation} ({self.name})" if self.name is not None else f"{self.designation}")
 
     def __str__(self):
         """Return `str(self)`."""
@@ -68,12 +65,11 @@ class NearEarthObject:
         # method for examples of advanced string formatting.
         #
         self.is_hazardous = "is" if self.hazardous else "is not"
-        return f"NEO {self.fullname} has a diameter of {float(self.diameter)} km {self.is_hazardous} potentially hazardous. "
+        return (f"NEO {self.fullname} has a diameter of {float(self.diameter)} km {self.is_hazardous} potentially hazardous. ")
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""
-        return (f"NearEarthObject(designation={self.designation!r}, name={self.name!r}, "
-               f"diameter={self.diameter:.3f}, hazardous={self.hazardous!r})")
+        return (f"NearEarthObject(designation={self.designation!r}, name={self.name!r}, diameter={self.diameter:.3f}, hazardous={self.hazardous!r})")
 
 
 class CloseApproach:
