@@ -32,6 +32,7 @@ class NearEarthObject:
     initialized to an empty collection, but eventually populated in the
     `NEODatabase` constructor.
     """
+
     # TODO: How can you, and should you, change the arguments to this constructor?
     # If you make changes, be sure to update the comments in this file.
     def __init__(self, **info):
@@ -46,17 +47,20 @@ class NearEarthObject:
         # and a missing diameter being represented by `float('nan')`.
         # additional notes: using the get method but check if true first otherwise default assignment
 
-        self.designation = info.get('designation')
-        self.name = info.get('name') or None
-        self.diameter = float(info.get('diameter', 'nan'))
-        self.hazardous = info.get('hazardous', 'N') == 'Y'
+        self.designation = info.get("designation")
+        self.name = info.get("name") or None
+        self.diameter = float(info.get("diameter", "nan"))
+        self.hazardous = info.get("hazardous", "N") == "Y"
         self.approaches = []
-
 
     @property
     def fullname(self):
         """Return a representation of the full name of this NEO."""
-        return (f"{self.designation} ({self.name})" if self.name is not None else f"{self.designation}")
+        return (
+            f"{self.designation} ({self.name})"
+            if self.name is not None
+            else f"{self.designation}"
+        )
 
     def __str__(self):
         """Return `str(self)`."""
@@ -65,11 +69,11 @@ class NearEarthObject:
         # method for examples of advanced string formatting.
         #
         self.is_hazardous = "is" if self.hazardous else "is not"
-        return (f"NEO {self.fullname} has a diameter of {float(self.diameter)} km {self.is_hazardous} potentially hazardous. ")
+        return f"NEO {self.fullname} has a diameter of {float(self.diameter)} km {self.is_hazardous} potentially hazardous. "
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""
-        return (f"NearEarthObject(designation={self.designation!r}, name={self.name!r}, diameter={self.diameter:.3f}, hazardous={self.hazardous!r})")
+        return f"NearEarthObject(designation={self.designation!r}, name={self.name!r}, diameter={self.diameter:.3f}, hazardous={self.hazardous!r})"
 
 
 class CloseApproach:
@@ -85,6 +89,7 @@ class CloseApproach:
     private attribute, but the referenced NEO is eventually replaced in the
     `NEODatabase` constructor.
     """
+
     # TODO: How can you, and should you, change the arguments to this constructor?
     # If you make changes, be sure to update the comments in this file.
     def __init__(self, **info):
@@ -97,11 +102,11 @@ class CloseApproach:
         # You should coerce these values to their appropriate data type and handle any edge cases.
         # The `cd_to_datetime` function will be useful.
         # using the get method again for pulling the data from dict
-        self._designation = info.get('designation')
-        self.time = cd_to_datetime(info.get('time'))
-        #self.time = None  # TODO: Use the cd_to_datetime function for this attribute.
-        self.distance = float(info.get('distance'))
-        self.velocity = float(info.get('velocity'))
+        self._designation = info.get("designation")
+        self.time = cd_to_datetime(info.get("time"))
+        # self.time = None  # TODO: Use the cd_to_datetime function for this attribute.
+        self.distance = float(info.get("distance"))
+        self.velocity = float(info.get("velocity"))
 
         # Create an attribute for the referenced NEO, originally None.
         # self.neo = info.get('neo')
@@ -130,16 +135,14 @@ class CloseApproach:
         # TODO: Use this object's attributes to return a human-readable string representation.
         # The project instructions include one possibility. Peek at the __repr__
         # method for examples of advanced string formatting.
-        #return f"A CloseApproach ..."
-        if hasattr(self.neo, '_full_name'):
+        # return f"A CloseApproach ..."
+        if hasattr(self.neo, "_full_name"):
             name = self.neo._full_name
         else:
             name = self._designation
 
         return f"At {self.time_str}, '{name}' approaches Earth at a distance of {self.distance:.2f} au and a velocity of {self.velocity:.2f} km/s."
-        # return f"At {self.time_str}, {self.name} approaches Earth at a distance of {self.distance:.2f} au and a velocity of {self.velocity:.2f} km/s."
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""
-        return f"CloseApproach(time={self.time_str!r}, distance={self.distance:.2f}, " \
-               f"velocity={self.velocity:.2f}, neo={self.neo!r})"
+        return f"CloseApproach(time={self.time_str!r}, distance={self.distance:.2f}, velocity={self.velocity:.2f}, neo={self.neo!r})"
