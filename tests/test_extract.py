@@ -51,31 +51,36 @@ class TestLoadNEOs(unittest.TestCase):
         self.assertEqual(len(self.neos), 4226)
 
     def test_neos_contain_2019_SC8_no_name_no_diameter(self):
-        self.assertIn('2019 SC8', self.neos_by_designation)
-        neo = self.neos_by_designation['2019 SC8']
-
-        self.assertEqual(neo.designation, '2019 SC8')
-        self.assertEqual(neo.name, None)
-        self.assertTrue(math.isnan(neo.diameter))
-        self.assertEqual(neo.hazardous, False)
+        self._extracted_from_test_asclepius_has_name_no_diameter_2(
+            '2019 SC8', None, False
+        )
 
     def test_asclepius_has_name_no_diameter(self):
-        self.assertIn('4581', self.neos_by_designation)
-        neo = self.neos_by_designation['4581']
+        self._extracted_from_test_asclepius_has_name_no_diameter_2(
+            '4581', 'Asclepius', True
+        )
 
-        self.assertEqual(neo.designation, '4581')
-        self.assertEqual(neo.name, 'Asclepius')
+    def _extracted_from_test_asclepius_has_name_no_diameter_2(self, arg0, arg1, arg2):
+        neo = self._extracted_from_test_adonis_is_potentially_hazardous_2(arg0, arg1)
         self.assertTrue(math.isnan(neo.diameter))
-        self.assertEqual(neo.hazardous, True)
+        self.assertEqual(neo.hazardous, arg2)
 
+    # TODO Rename this here and in `test_neos_contain_2019_SC8_no_name_no_diameter`, `test_asclepius_has_name_no_diameter` and `test_adonis_is_potentially_hazardous`
     def test_adonis_is_potentially_hazardous(self):
-        self.assertIn('2101', self.neos_by_designation)
-        neo = self.neos_by_designation['2101']
+        neo = self._extracted_from_test_adonis_is_potentially_hazardous_2(
+            '2101', 'Adonis'
+        )
 
-        self.assertEqual(neo.designation, '2101')
-        self.assertEqual(neo.name, 'Adonis')
         self.assertEqual(neo.diameter, 0.6)
         self.assertEqual(neo.hazardous, True)
+
+    # TODO Rename this here and in `test_neos_contain_2019_SC8_no_name_no_diameter`, `test_asclepius_has_name_no_diameter` and `test_adonis_is_potentially_hazardous`
+    def _extracted_from_test_adonis_is_potentially_hazardous_2(self, arg0, arg1):
+        self.assertIn(arg0, self.neos_by_designation)
+        result = self.neos_by_designation[arg0]
+        self.assertEqual(result.designation, arg0)
+        self.assertEqual(result.name, arg1)
+        return result
 
 
 class TestLoadApproaches(unittest.TestCase):
