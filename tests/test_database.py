@@ -55,60 +55,57 @@ class TestDatabase(unittest.TestCase):
                 seen.add(approach)
 
     def test_get_neo_by_designation(self):
-        cerberus = self.db.get_neo_by_designation('1865')
-        self.assertIsNotNone(cerberus)
-        self.assertEqual(cerberus.designation, '1865')
-        self.assertEqual(cerberus.name, 'Cerberus')
-        self.assertEqual(cerberus.diameter, 1.2)
-        self.assertEqual(cerberus.hazardous, False)
+        self._extracted_from_test_get_neo_by_designation_2(
+            '1865', 'Cerberus', 1.2, False
+        )
 
-        adonis = self.db.get_neo_by_designation('2101')
-        self.assertIsNotNone(adonis)
-        self.assertEqual(adonis.designation, '2101')
-        self.assertEqual(adonis.name, 'Adonis')
-        self.assertEqual(adonis.diameter, 0.60)
-        self.assertEqual(adonis.hazardous, True)
+        self._extracted_from_test_get_neo_by_designation_2(
+            '2101', 'Adonis', 0.60, True
+        )
 
-        tantalus = self.db.get_neo_by_designation('2102')
-        self.assertIsNotNone(tantalus)
-        self.assertEqual(tantalus.designation, '2102')
-        self.assertEqual(tantalus.name, 'Tantalus')
-        self.assertEqual(tantalus.diameter, 1.649)
-        self.assertEqual(tantalus.hazardous, True)
+        self._extracted_from_test_get_neo_by_designation_2(
+            '2102', 'Tantalus', 1.649, True
+        )
 
-    def test_get_neo_by_designation_neos_with_year(self):
-        bs_2020 = self.db.get_neo_by_designation('2020 BS')
-        self.assertIsNotNone(bs_2020)
-        self.assertEqual(bs_2020.designation, '2020 BS')
-        self.assertEqual(bs_2020.name, None)
-        self.assertTrue(math.isnan(bs_2020.diameter))
-        self.assertEqual(bs_2020.hazardous, False)
-
-        py1_2020 = self.db.get_neo_by_designation('2020 PY1')
-        self.assertIsNotNone(py1_2020)
-        self.assertEqual(py1_2020.designation, '2020 PY1')
-        self.assertEqual(py1_2020.name, None)
-        self.assertTrue(math.isnan(py1_2020.diameter))
-        self.assertEqual(py1_2020.hazardous, False)
+    def _extracted_from_test_get_neo_by_designation_2(self, arg0, arg1, arg2, arg3):
+        cerberus = self.db.get_neo_by_designation(arg0)
+        self._extracted_from_test_get_neo_by_name_3(cerberus, arg0, arg1)
+        self.assertEqual(cerberus.diameter, arg2)
+        self.assertEqual(cerberus.hazardous, arg3)
 
     def test_get_neo_by_designation_missing(self):
         nonexistent = self.db.get_neo_by_designation('not-real-designation')
         self.assertIsNone(nonexistent)
 
+    def test_get_neo_by_designation_neos_with_year(self):
+        bs_2020 = self.db.get_neo_by_designation('2020 BS')
+        self._extracted_from_test_get_neo_by_name_3_(bs_2020, '2020 BS', None, False)
+        py1_2020 = self.db.get_neo_by_designation('2020 PY1')
+        self._extracted_from_test_get_neo_by_name_3_(py1_2020, '2020 PY1', None, False)
+
+    # TODO Rename this here and in `test_get_neo_by_designation`, `test_get_neo_by_designation_neos_with_year` and `test_get_neo_by_name`
     def test_get_neo_by_name(self):
         lemmon = self.db.get_neo_by_name('Lemmon')
-        self.assertIsNotNone(lemmon)
-        self.assertEqual(lemmon.designation, '2013 TL117')
-        self.assertEqual(lemmon.name, 'Lemmon')
-        self.assertTrue(math.isnan(lemmon.diameter))
-        self.assertEqual(lemmon.hazardous, False)
+        self._extracted_from_test_get_neo_by_name_3_(
+            lemmon, '2013 TL117', 'Lemmon', False
+        )
 
         jormungandr = self.db.get_neo_by_name('Jormungandr')
-        self.assertIsNotNone(jormungandr)
-        self.assertEqual(jormungandr.designation, '471926')
-        self.assertEqual(jormungandr.name, 'Jormungandr')
-        self.assertTrue(math.isnan(jormungandr.diameter))
-        self.assertEqual(jormungandr.hazardous, True)
+        self._extracted_from_test_get_neo_by_name_3_(
+            jormungandr, '471926', 'Jormungandr', True
+        )
+
+    # TODO Rename this here and in `test_get_neo_by_designation`, `test_get_neo_by_designation_neos_with_year` and `test_get_neo_by_name`
+    def _extracted_from_test_get_neo_by_name_3_(self, arg0, arg1, arg2, arg3):
+        self._extracted_from_test_get_neo_by_name_3(arg0, arg1, arg2)
+        self.assertTrue(math.isnan(arg0.diameter))
+        self.assertEqual(arg0.hazardous, arg3)
+
+    # TODO Rename this here and in `test_get_neo_by_designation`, `test_get_neo_by_designation_neos_with_year` and `test_get_neo_by_name`
+    def _extracted_from_test_get_neo_by_name_3(self, arg0, arg1, arg2):
+        self.assertIsNotNone(arg0)
+        self.assertEqual(arg0.designation, arg1)
+        self.assertEqual(arg0.name, arg2)
 
     def test_get_neo_by_name_missing(self):
         nonexistent = self.db.get_neo_by_name('not-real-name')
