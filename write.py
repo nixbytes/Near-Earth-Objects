@@ -25,12 +25,17 @@ def write_to_csv(results, filename):
     :param filename: A Path-like object pointing to where the data should be saved.
     """
     fieldnames = (
-        'datetime_utc', 'distance_au', 'velocity_km_s',
-        'designation', 'name', 'diameter_km', 'potentially_hazardous'
+        "datetime_utc",
+        "distance_au",
+        "velocity_km_s",
+        "designation",
+        "name",
+        "diameter_km",
+        "potentially_hazardous",
     )
     # TODO: Write the results to a CSV file, following the specification in the instructions.
 
-    with open(filename, 'w') as f:
+    with open(filename, "w") as f:
         writer = csv.writer(f)
         writer.writerow(fieldnames)
 
@@ -39,12 +44,20 @@ def write_to_csv(results, filename):
             distance = ca.distance
             velocity = ca.velocity
             neo_diameter = str(ca.neo.diameter)
-            neo_name = ca.neo.name if ca.neo.diameter \
-                else ''
+            neo_name = ca.neo.name if ca.neo.diameter else ""
             neo_hazardous = str(ca.neo.hazardous)
-            writer.writerow([time, distance, velocity,
-                            ca._designation, neo_name, neo_diameter,
-                            neo_hazardous])
+            writer.writerow(
+                [
+                    time,
+                    distance,
+                    velocity,
+                    ca._designation,
+                    neo_name,
+                    neo_diameter,
+                    neo_hazardous,
+                ]
+            )
+
 
 def write_to_json(results, filename):
     """Write an iterable of `CloseApproach` objects to a JSON file.
@@ -59,7 +72,6 @@ def write_to_json(results, filename):
     """
     # TODO: Write the results to a JSON file, following the specification in the instructions.
 
-
     json_list = []
     with open(filename, "w") as write_file:
         dict = iter(results)
@@ -67,13 +79,18 @@ def write_to_json(results, filename):
             try:
                 json_dict = next(dict)
 
-                full_d = {'datetime_utc': json_dict.time_str, 'distance_au': json_dict.distance,
-                              'velocity_km_s': json_dict.velocity, 'designation': json_dict._designation,
-                              "neo": {
-                                  'name': json_dict.neo.name, 'diameter_km': json_dict.neo.diameter,
-                                  'potentially_hazardous': json_dict.neo.hazardous,
-                                  'designation': json_dict.neo.designation}
-                              }
+                full_d = {
+                    "datetime_utc": json_dict.time_str,
+                    "distance_au": json_dict.distance,
+                    "velocity_km_s": json_dict.velocity,
+                    "designation": json_dict._designation,
+                    "neo": {
+                        "name": json_dict.neo.name,
+                        "diameter_km": json_dict.neo.diameter,
+                        "potentially_hazardous": json_dict.neo.hazardous,
+                        "designation": json_dict.neo.designation,
+                    },
+                }
                 json_list.append(full_d)
             except StopIteration:
                 break
