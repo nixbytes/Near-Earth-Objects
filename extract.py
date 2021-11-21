@@ -30,10 +30,10 @@ def load_neos(neo_csv_path):
 
         for neo in reader:
             params = {
-                "designation": neo["pdes"],
-                "name": neo["name"],
-                "hazardous": neo["pha"],
-                "diameter": neo["diameter"] or "nan",
+                "designation": neo.get("pdes"),
+                "name": neo.get("name"),
+                "hazardous": neo.get("pha"),
+                "diameter": neo.get("diameter") or "nan",
             }
 
             neo_list.append(NearEarthObject(**params))
