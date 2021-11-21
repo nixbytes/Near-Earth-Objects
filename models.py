@@ -44,12 +44,14 @@ class NearEarthObject:
         # handle any edge cases, such as a empty name being represented by `None`
         # and a missing diameter being represented by `float('nan')`.
         # additional notes: using the get method but check if true first otherwise default assignment
-
-        self.designation = info.get("designation")
-        self.name = info.get("name") or None
-        self.diameter = float(info.get("diameter", "nan"))
-        self.hazardous = info.get("hazardous", "N") == "Y"
-        self.approaches = []
+        try:
+            self.designation = info.get("designation")
+            self.name = info.get("name") or None
+            self.diameter = float(info.get("diameter", "nan"))
+            self.hazardous = info.get("hazardous", "N") == "Y"
+            self.approaches = []
+        except ValueError as error:
+            print(error)
 
     @property
     def fullname(self):
@@ -97,16 +99,19 @@ class CloseApproach:
         # You should coerce these values to their appropriate data type and handle any edge cases.
         # The `cd_to_datetime` function will be useful.
         # using the get method again for pulling the data from dict
-        self._designation = info.get("designation")
-        self.time = cd_to_datetime(info.get("time"))
-        # self.time = None  # TODO: Use the cd_to_datetime function for this attribute.
-        self.distance = float(info.get("distance"))
-        self.velocity = float(info.get("velocity"))
+        try:
+            self._designation = info.get("designation")
+            self.time = cd_to_datetime(info.get("time"))
+            # self.time = None  # TODO: Use the cd_to_datetime function for this attribute.
+            self.distance = float(info.get("distance"))
+            self.velocity = float(info.get("velocity"))
 
-        # Create an attribute for the referenced NEO, originally None.
-        # self.neo = info.get('neo')
-        self.neo = None
-
+            # Create an attribute for the referenced NEO, originally None.
+            # self.neo = info.get('neo')
+            self.neo = None
+        except ValueError as error:
+            print(error)
+            
     @property
     def time_str(self):
         """Return a formatted representation of this `CloseApproach`'s approach time.
