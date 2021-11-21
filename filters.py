@@ -72,6 +72,7 @@ class AttributeFilter:
         raise UnsupportedCriterionError
 
     def __repr__(self):
+        """format the class as a string in readable output"""
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
 
 
@@ -182,7 +183,7 @@ def create_filters(
         filters.append(Diameter(operator.le, diameter_max))
     if hazardous is not None:
         filters.append(Hazardous(operator.is_, hazardous))
-    return filters
+    return (filters)
 
 
 def limit(iterator, n=None):
