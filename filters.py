@@ -72,9 +72,8 @@ class AttributeFilter:
         raise UnsupportedCriterionError
 
     def __repr__(self):
-        """format the class as a string in readable output"""
+        """Format the class as a string in readable output."""
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
-
 
 class Date_Filter(AttributeFilter):
     """Date_Filter class."""

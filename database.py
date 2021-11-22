@@ -48,7 +48,6 @@ class NEODatabase:
         self._designation_neo_dict = {}
         self._neo_name_dict = {}
 
-
         for neo in self._neos:
             self._designation_neo_dict[neo.designation] = neo
             if neo.name:
@@ -74,7 +73,6 @@ class NEODatabase:
         :param designation: The primary designation of the NEO to search for.
         :return: The `NearEarthObject` with the desired primary designation, or `None`.
         """
-
         return self._designation_neo_dict.get(designation, None)
 
     def get_neo_by_name(self, name):
@@ -91,7 +89,6 @@ class NEODatabase:
         :param name: The name, as a string, of the NEO to search for.
         :return: The `NearEarthObject` with the desired name, or `None`.
         """
-
         return self._neo_name_dict.get(name, None)
 
     def query(self, filters=()):
